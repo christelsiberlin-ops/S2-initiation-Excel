@@ -10,8 +10,8 @@
     <div class="max-w-3xl mx-auto">
         <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
             <h1 class="text-2xl font-bold text-purple-900 mb-2">Quiz - Fonctions texte et date</h1>
-            <p class="text-gray-600">Niveau 2 - Vidéo 6</p>
-            <p class="text-sm text-gray-500 mt-2">✅ Validez vos connaissances avant de passer à la suite</p>
+            <p class="text-gray-600">Niveau 2 - VidÃ©o 6</p>
+            <p class="text-sm text-gray-500 mt-2">âœ… Validez vos connaissances avant de passer Ã  la suite</p>
         </div>
 
         <form id="quizForm" class="space-y-6">
@@ -25,11 +25,11 @@
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q1" value="b" class="w-4 h-4">
-                        <span>Séparer un texte en plusieurs parties</span>
+                        <span>SÃ©parer un texte en plusieurs parties</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q1" value="c" class="w-4 h-4">
-                        <span>Compter le nombre de caractères</span>
+                        <span>Compter le nombre de caractÃ¨res</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q1" value="d" class="w-4 h-4">
@@ -43,11 +43,11 @@
                 <div class="space-y-3">
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q2" value="a" class="w-4 h-4">
-                        <span>Les premiers caractères du texte à partir de la gauche</span>
+                        <span>Les premiers caractÃ¨res du texte Ã  partir de la gauche</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q2" value="b" class="w-4 h-4">
-                        <span>Les derniers caractères du texte</span>
+                        <span>Les derniers caractÃ¨res du texte</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q2" value="c" class="w-4 h-4">
@@ -83,7 +83,7 @@
             </div>
 
             <div class="bg-white rounded-lg shadow-lg p-6">
-                <h3 class="font-bold text-lg text-gray-800 mb-4">4. Pour extraire l'année d'une date, on utilise :</h3>
+                <h3 class="font-bold text-lg text-gray-800 mb-4">4. Pour extraire l'annÃ©e d'une date, on utilise :</h3>
                 <div class="space-y-3">
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q4" value="a" class="w-4 h-4">
@@ -113,7 +113,7 @@
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q5" value="b" class="w-4 h-4">
-                        <span>Mettre seulement la première lettre en majuscule</span>
+                        <span>Mettre seulement la premiÃ¨re lettre en majuscule</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q5" value="c" class="w-4 h-4">
@@ -150,7 +150,7 @@
 
             <div class="bg-white rounded-lg shadow-lg p-6">
                 <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-bold hover:bg-purple-700 transition-colors">
-                    ✓ Valider mes réponses
+                    âœ“ Valider mes rÃ©ponses
                 </button>
             </div>
         </form>
@@ -161,10 +161,10 @@
                 <div id="message" class="text-xl mb-6"></div>
                 <div id="details" class="text-left bg-gray-50 p-4 rounded-lg mb-6"></div>
                 <button onclick="location.reload()" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 transition-colors">
-                    🔄 Refaire le quiz
+                    ðŸ”„ Refaire le quiz
                 </button>
                 <button onclick="window.close()" class="ml-4 bg-gray-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-700 transition-colors">
-                    ← Retour au suivi
+                    â† Retour au suivi
                 </button>
             </div>
         </div>
@@ -173,7 +173,7 @@
     <script>
         const correctAnswers = {
             q1: 'a',  // Assembler des textes
-            q2: 'a',  // Premiers caractères
+            q2: 'a',  // Premiers caractÃ¨res
             q3: 'a',  // Date du jour
             q4: 'a',  // =ANNEE(date)
             q5: 'a',  // Tout en majuscules
@@ -181,11 +181,11 @@
         };
 
         const explanations = {
-            q1: 'CONCATENER (ou l\'opérateur &) permet d\'assembler plusieurs chaînes de texte en une seule. Exemple : "Bonjour" & " " & "Marie" donne "Bonjour Marie".',
-            q2: 'GAUCHE extrait un nombre défini de caractères à partir du début (gauche) du texte. Exemple : =GAUCHE("Excel";2) renvoie "Ex".',
-            q3: 'AUJOURDHUI() renvoie la date système actuelle et se met à jour automatiquement chaque jour. Attention : pas de paramètre nécessaire !',
-            q4: 'En français, on utilise =ANNEE(date) pour extraire l\'année. Il existe aussi MOIS() et JOUR() pour le mois et le jour.',
-            q5: 'MAJUSCULE convertit tout le texte en lettres capitales. Il existe aussi MINUSCULE() et NOMPROPRE() (1ère lettre en majuscule).',
+            q1: 'CONCATENER (ou l\'opÃ©rateur &) permet d\'assembler plusieurs chaÃ®nes de texte en une seule. Exemple : "Bonjour" & " " & "Marie" donne "Bonjour Marie".',
+            q2: 'GAUCHE extrait un nombre dÃ©fini de caractÃ¨res Ã  partir du dÃ©but (gauche) du texte. Exemple : =GAUCHE("Excel";2) renvoie "Ex".',
+            q3: 'AUJOURDHUI() renvoie la date systÃ¨me actuelle et se met Ã  jour automatiquement chaque jour. Attention : pas de paramÃ¨tre nÃ©cessaire !',
+            q4: 'En franÃ§ais, on utilise =ANNEE(date) pour extraire l\'annÃ©e. Il existe aussi MOIS() et JOUR() pour le mois et le jour.',
+            q5: 'MAJUSCULE convertit tout le texte en lettres capitales. Il existe aussi MINUSCULE() et NOMPROPRE() (1Ã¨re lettre en majuscule).',
             q6: 'Excel stocke les dates comme des nombres, donc on peut simplement les soustraire pour obtenir le nombre de jours entre deux dates.'
         };
 
@@ -201,9 +201,9 @@
                 
                 if (userAnswer && userAnswer.value === correctAnswers[question]) {
                     score++;
-                    details += `<div class="mb-2"><span class="text-green-600 font-bold">✓ Question ${question.slice(1)}</span> - Correct ! ${explanations[question] || ''}</div>`;
+                    details += `<div class="mb-2"><span class="text-green-600 font-bold">âœ“ Question ${question.slice(1)}</span> - Correct ! ${explanations[question] || ''}</div>`;
                 } else {
-                    details += `<div class="mb-2"><span class="text-red-600 font-bold">✗ Question ${question.slice(1)}</span> - ${explanations[question] || 'Réponse incorrecte'}</div>`;
+                    details += `<div class="mb-2"><span class="text-red-600 font-bold">âœ— Question ${question.slice(1)}</span> - ${explanations[question] || 'RÃ©ponse incorrecte'}</div>`;
                 }
             }
 
@@ -213,27 +213,75 @@
             const message = document.getElementById('message');
             
             if (percentage >= 80) {
-                scoreDisplay.textContent = `${score}/${totalQuestions} 🎉`;
+                scoreDisplay.textContent = `${score}/${totalQuestions} ðŸŽ‰`;
                 scoreDisplay.className = 'text-5xl font-bold mb-4 text-green-600';
-                message.textContent = 'Excellent ! Vous maîtrisez les fonctions texte et date !';
+                message.textContent = 'Excellent ! Vous maÃ®trisez les fonctions texte et date !';
                 message.className = 'text-xl mb-6 text-green-600';
             } else if (percentage >= 60) {
-                scoreDisplay.textContent = `${score}/${totalQuestions} 👍`;
+                scoreDisplay.textContent = `${score}/${totalQuestions} ðŸ‘`;
                 scoreDisplay.className = 'text-5xl font-bold mb-4 text-blue-600';
                 message.textContent = 'Bien ! Pratiquez encore avec ces fonctions.';
                 message.className = 'text-xl mb-6 text-blue-600';
             } else {
-                scoreDisplay.textContent = `${score}/${totalQuestions} 📚`;
+                scoreDisplay.textContent = `${score}/${totalQuestions} ðŸ“š`;
                 scoreDisplay.className = 'text-5xl font-bold mb-4 text-orange-600';
-                message.textContent = 'Revoyez la vidéo sur les fonctions texte et date.';
+                message.textContent = 'Revoyez la vidÃ©o sur les fonctions texte et date.';
                 message.className = 'text-xl mb-6 text-orange-600';
             }
 
             document.getElementById('details').innerHTML = details;
             document.getElementById('quizForm').style.display = 'none';
             document.getElementById('results').classList.remove('hidden');
+            envoyerResultatQuiz(nomEtudiant, quizId, score, totalQuestions, percentage);
             window.scrollTo(0, 0);
         });
+    </script>
+    <script>
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKf1mlCvqXeX3mQU7WPl01LRPqbBsRQN_zavUAXuQOLcrHIQSGJtce-I3ylOaVKwLL/exec";
+        
+        function getNomEtudiant() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nomFromUrl = urlParams.get('nom');
+            if (nomFromUrl) {
+                localStorage.setItem('currentStudentName', nomFromUrl);
+                return nomFromUrl;
+            }
+            return localStorage.getItem('currentStudentName') || 'Étudiant inconnu';
+        }
+        
+        async function envoyerResultatQuiz(nomEtudiant, quizId, score, total, pourcentage) {
+            if (!GOOGLE_SCRIPT_URL) return;
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'quiz',
+                        nom: nomEtudiant,
+                        quiz: quizId,
+                        score: score,
+                        total: total,
+                        pourcentage: pourcentage
+                    })
+                });
+                console.log("Résultat du quiz envoyé");
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        }
+
+        // ⚠️ CHANGEZ LE NOM POUR CHAQUE QUIZ
+        const quizId = "N2-V6 Formules simples"; // Adaptez selon le quiz
+        const nomEtudiant = getNomEtudiant();
+
+        const headerDiv = document.querySelector('.bg-white.rounded-lg.shadow-xl.p-6.mb-6');
+        if (headerDiv && nomEtudiant !== 'Étudiant inconnu') {
+            const nameTag = document.createElement('p');
+            nameTag.className = 'text-sm text-indigo-600 font-medium mt-2';
+            nameTag.textContent = '👤 ' + nomEtudiant;
+            headerDiv.appendChild(nameTag);
+        }
     </script>
 </body>
 </html>
