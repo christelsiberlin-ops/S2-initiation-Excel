@@ -95,7 +95,7 @@
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q4" value="c" class="w-4 h-4">
-                        <span>Clic droit sur l'en-tête puis "Largeur de colonne"</span>
+                        <span>Clic droit sur l'en-têt puis "Largeur de colonne"</span>
                     </label>
                     <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="q4" value="d" class="w-4 h-4">
@@ -171,13 +171,58 @@
     </div>
 
     <script>
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKf1mlCvqXeX3mQU7WPl01LRPqbBsRQN_zavUAXuQOLcrHIQSGJtce-I3ylOaVKwLL/exec";
+        
+        function getNomEtudiant() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nomFromUrl = urlParams.get('nom');
+            if (nomFromUrl) {
+                localStorage.setItem('currentStudentName', nomFromUrl);
+                return nomFromUrl;
+            }
+            return localStorage.getItem('currentStudentName') || 'Étudiant inconnu';
+        }
+        
+        async function envoyerResultatQuiz(nomEtudiant, quizId, score, total, pourcentage) {
+            if (!GOOGLE_SCRIPT_URL) return;
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'quiz',
+                        nom: nomEtudiant,
+                        quiz: quizId,
+                        score: score,
+                        total: total,
+                        pourcentage: pourcentage
+                    })
+                });
+                console.log("Résultat du quiz envoyé");
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        }
+
+        const quizId = "N1-V2 Saisie et mise en forme";
+        const nomEtudiant = getNomEtudiant();
+
+        const headerDiv = document.querySelector('.bg-white.rounded-lg.shadow-xl.p-6.mb-6');
+        if (headerDiv && nomEtudiant !== 'Étudiant inconnu') {
+            const nameTag = document.createElement('p');
+            nameTag.className = 'text-sm text-indigo-600 font-medium mt-2';
+            nameTag.textContent = '👤 ' + nomEtudiant;
+            headerDiv.appendChild(nameTag);
+        }
+
         const correctAnswers = {
-            q1: 'd',  // Toutes ces réponses
-            q2: 'a',  // Ctrl + B
-            q3: 'a',  // Fusionner et centrer
-            q4: 'd',  // Toutes ces méthodes
-            q5: 'a',  // Boutons d'alignement
-            q6: 'a'   // Ctrl + C
+            q1: 'd',
+            q2: 'a',
+            q3: 'a',
+            q4: 'd',
+            q5: 'a',
+            q6: 'a'
         };
 
         const explanations = {
@@ -198,17 +243,15 @@
 
             for (let question in correctAnswers) {
                 const userAnswer = document.querySelector(`input[name="${question}"]:checked`);
-                
                 if (userAnswer && userAnswer.value === correctAnswers[question]) {
                     score++;
-                    details += `<div class="mb-2"><span class="text-green-600 font-bold">✓ Question ${question.slice(1)}</span> - Correct ! ${explanations[question] || ''}</div>`;
+                    details += `<div class="mb-2"><span class="text-green-600 font-bold">✓ Question ${question.slice(1)}</span> - Correct ! ${explanations[question]}</div>`;
                 } else {
-                    details += `<div class="mb-2"><span class="text-red-600 font-bold">✗ Question ${question.slice(1)}</span> - ${explanations[question] || 'Réponse incorrecte'}</div>`;
+                    details += `<div class="mb-2"><span class="text-red-600 font-bold">✗ Question ${question.slice(1)}</span> - ${explanations[question]}</div>`;
                 }
             }
 
             const percentage = Math.round((score / totalQuestions) * 100);
-
             const scoreDisplay = document.getElementById('scoreDisplay');
             const message = document.getElementById('message');
             
@@ -232,6 +275,9 @@
             document.getElementById('details').innerHTML = details;
             document.getElementById('quizForm').style.display = 'none';
             document.getElementById('results').classList.remove('hidden');
+            
+            envoyerResultatQuiz(nomEtudiant, quizId, score, totalQuestions, percentage);
+            
             window.scrollTo(0, 0);
         });
     </script>

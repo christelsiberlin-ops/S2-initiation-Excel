@@ -149,12 +149,70 @@
     </div>
 
     <script>
+        // ⚠️ REMPLACEZ PAR VOTRE URL GOOGLE SCRIPT
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKf1mlCvqXeX3mQU7WPl01LRPqbBsRQN_zavUAXuQOLcrHIQSGJtce-I3ylOaVKwLL/exec";
+        
+        // Récupérer le nom de l'étudiant depuis l'URL ou localStorage
+        function getNomEtudiant() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nomFromUrl = urlParams.get('nom');
+            
+            if (nomFromUrl) {
+                localStorage.setItem('currentStudentName', nomFromUrl);
+                return nomFromUrl;
+            }
+            
+            return localStorage.getItem('currentStudentName') || 'Étudiant inconnu';
+        }
+        
+        // Envoyer le résultat du quiz à Google Sheets
+        async function envoyerResultatQuiz(nomEtudiant, quizId, score, total, pourcentage) {
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('VOTRE_URL')) {
+                console.log("URL Google Script non configurée");
+                return;
+            }
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'quiz',
+                        nom: nomEtudiant,
+                        quiz: quizId,
+                        score: score,
+                        total: total,
+                        pourcentage: pourcentage
+                    })
+                });
+                console.log("Résultat du quiz envoyé à Google Sheets");
+            } catch (error) {
+                console.error("Erreur envoi quiz:", error);
+            }
+        }
+
+        // Identifier le quiz
+        const quizId = "N1-V1 Introduction";
+        const nomEtudiant = getNomEtudiant();
+
+        // Afficher le nom dans le header
+        const headerDiv = document.querySelector('.bg-white.rounded-lg.shadow-xl.p-6.mb-6');
+        if (headerDiv && nomEtudiant !== 'Étudiant inconnu') {
+            const nameTag = document.createElement('p');
+            nameTag.className = 'text-sm text-indigo-600 font-medium mt-2';
+            nameTag.textContent = '👤 ' + nomEtudiant;
+            headerDiv.appendChild(nameTag);
+        }
+
         const correctAnswers = {
-            q1: 'b',  // Un tableur
-            q2: 'b',  // Un classeur
-            q3: 'b',  // Une cellule
-            q4: 'b',  // Ctrl + N
-            q5: 'b'   // Des lettres
+            q1: 'b',
+            q2: 'b',
+            q3: 'b',
+            q4: 'b',
+            q5: 'b'
         };
 
         const explanations = {
@@ -208,6 +266,10 @@
             document.getElementById('details').innerHTML = details;
             document.getElementById('quizForm').style.display = 'none';
             document.getElementById('results').classList.remove('hidden');
+            
+            // Envoyer le résultat à Google Sheets
+            envoyerResultatQuiz(nomEtudiant, quizId, score, totalQuestions, percentage);
+            
             window.scrollTo(0, 0);
         });
     </script>
