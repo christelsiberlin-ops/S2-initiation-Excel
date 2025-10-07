@@ -67,7 +67,7 @@
         );
 
         // ✅ URL MISE À JOUR
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBr6NhpqTBX0dAiezYg9sPvP8YGor7EVQP_JQcqQkGYjaLf2OphGx-wLREANgdG7Uz/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGq5DV55UCP_xt7PlN78_fJm4AkCIlUD54RyxRtfLwspc5es3iXSwxteLQlsC290Af/exec";
         
         // Fonction pour envoyer les données à Google Sheets
         async function envoyerAGoogleSheets(data) {
@@ -81,11 +81,11 @@
           try {
             const response = await fetch(GOOGLE_SCRIPT_URL, {
               method: 'POST',
-              mode: 'no-cors',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(data)
+              body: JSON.stringify(data),
+              redirect: 'follow'
             });
             console.log("✅ Données envoyées avec succès");
           } catch (error) {
