@@ -67,7 +67,7 @@
         );
 
         // ✅ URL MISE À JOUR
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmKhgxuxPFkhG0EpPj2YIlTr_WvalDf8Zlz1ZFAxRW6SlYaEQc4u5pCpYIlm2hNWiz/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBr6NhpqTBX0dAiezYg9sPvP8YGor7EVQP_JQcqQkGYjaLf2OphGx-wLREANgdG7Uz/exec";
         
         // Fonction pour envoyer les données à Google Sheets
         async function envoyerAGoogleSheets(data) {
@@ -268,7 +268,7 @@
                 newProg[niveau][type === 'video' ? 'videos' : 'exercices'][index] = 
                   !newProg[niveau][type === 'video' ? 'videos' : 'exercices'][index];
                 
-                // Envoyer à Google Sheets
+                // Envoyer à Google Sheets - SUIVI
                 const student = students.find(s => s.id === studentId);
                 if (student && GOOGLE_SCRIPT_URL) {
                   const nomComplet = `${student.prenom} ${student.nom}`;
@@ -284,11 +284,24 @@
                     element: elementNom,
                     statut: newProg[niveau][type === 'video' ? 'videos' : 'exercices'][index] ? 'coché' : 'décoché'
                   });
+                  
+                  // Calculer et envoyer la PROGRESSION mise à jour
+                  setTimeout(() => {
+                    const updatedProgress = { ...prev, [studentId]: newProg };
+                    const progressPercent = calculateProgressFromData(studentId, updatedProgress);
+                    
+                    envoyerAGoogleSheets({
+                      type: 'progression',
+                      nom: nomComplet,
+                      groupe: student.groupe,
+                      progression: progressPercent
+                    });
+                  }, 100);
                 }
               } else if (type === 'eval') {
                 newProg[niveau] = !newProg[niveau];
                 
-                // Envoyer à Google Sheets
+                // Envoyer à Google Sheets - SUIVI
                 const student = students.find(s => s.id === studentId);
                 if (student && GOOGLE_SCRIPT_URL) {
                   const nomComplet = `${student.prenom} ${student.nom}`;
@@ -300,11 +313,47 @@
                     element: niveau === 'eval1' ? 'Évaluation 1' : 'Évaluation 2',
                     statut: newProg[niveau] ? 'coché' : 'décoché'
                   });
+                  
+                  // Calculer et envoyer la PROGRESSION mise à jour
+                  setTimeout(() => {
+                    const updatedProgress = { ...prev, [studentId]: newProg };
+                    const progressPercent = calculateProgressFromData(studentId, updatedProgress);
+                    
+                    envoyerAGoogleSheets({
+                      type: 'progression',
+                      nom: nomComplet,
+                      groupe: student.groupe,
+                      progression: progressPercent
+                    });
+                  }, 100);
                 }
               }
               
               return { ...prev, [studentId]: newProg };
             });
+          };
+
+          const calculateProgressFromData = (studentId, progressData) => {
+            const prog = progressData[studentId] || getStudentProgress(studentId);
+            let total = 0;
+            let completed = 0;
+
+            ['niveau1', 'niveau2', 'niveau3'].forEach(niveau => {
+              prog[niveau].videos.forEach(done => {
+                total++;
+                if (done) completed++;
+              });
+              prog[niveau].exercices.forEach(done => {
+                total++;
+                if (done) completed++;
+              });
+            });
+            
+            total += 2;
+            if (prog.eval1) completed++;
+            if (prog.eval2) completed++;
+
+            return Math.round((completed / total) * 100);
           };
 
           const calculateProgress = (studentId) => {
