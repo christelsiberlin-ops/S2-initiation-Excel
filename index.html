@@ -79,14 +79,28 @@
           console.log("📤 Envoi à Google Sheets:", data);
           
           try {
-            // Convertir en FormData pour compatibilité CORS
-            const formData = new FormData();
-            formData.append('data', JSON.stringify(data));
-            
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-              method: 'POST',
-              body: formData
+            // Créer une URL avec les paramètres
+            const params = new URLSearchParams({
+              type: data.type,
+              nom: data.nom,
+              groupe: data.groupe || '',
+              progression: data.progression || '',
+              typeAction: data.typeAction || '',
+              niveau: data.niveau || '',
+              element: data.element || '',
+              statut: data.statut || '',
+              quiz: data.quiz || '',
+              score: data.score || '',
+              reponses: data.reponses ? JSON.stringify(data.reponses) : ''
             });
+            
+            const url = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+            
+            const response = await fetch(url, {
+              method: 'GET',
+              redirect: 'follow'
+            });
+            
             console.log("✅ Données envoyées avec succès");
           } catch (error) {
             console.error("❌ Erreur envoi Google Sheets:", error);
