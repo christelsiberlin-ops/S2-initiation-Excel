@@ -232,22 +232,10 @@
             return saved ? JSON.parse(saved) : {};
           });
 
-          // Sauvegarde automatique dans localStorage et Google Sheets
+          // Sauvegarde automatique dans localStorage
           useEffect(() => {
             localStorage.setItem('excelProgress', JSON.stringify(progress));
-            
-            // Envoyer la progression globale à Google Sheets
-            if (currentStudent && GOOGLE_SCRIPT_URL) {
-              const progressPercent = calculateProgress(currentStudent.id);
-              const nomComplet = `${currentStudent.prenom} ${currentStudent.nom}`;
-              
-              envoyerAGoogleSheets({
-                type: 'progression',
-                nom: nomComplet,
-                progression: progressPercent
-              });
-            }
-          }, [progress, currentStudent]);
+          }, [progress]);
 
           const getStudentProgress = (studentId) => {
             if (!progress[studentId]) {
