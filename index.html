@@ -238,25 +238,51 @@
           }, [progress]);
 
           const getStudentProgress = (studentId) => {
-            if (!progress[studentId]) {
-              return {
-                niveau1: {
-                  videos: Array(courseStructure.niveau1.videos.length).fill(false),
-                  exercices: Array(courseStructure.niveau1.exercices.length).fill(false)
-                },
-                niveau2: {
-                  videos: Array(courseStructure.niveau2.videos.length).fill(false),
-                  exercices: Array(courseStructure.niveau2.exercices.length).fill(false)
-                },
-                niveau3: {
-                  videos: Array(courseStructure.niveau3.videos.length).fill(false),
-                  exercices: Array(courseStructure.niveau3.exercices.length).fill(false)
-                },
-                eval1: false,
-                eval2: false
-              };
+            const saved = progress[studentId];
+            
+            // Structure par défaut complète
+            const defaultStructure = {
+              niveau1: {
+                videos: Array(courseStructure.niveau1.videos.length).fill(false),
+                exercices: Array(courseStructure.niveau1.exercices.length).fill(false)
+              },
+              niveau2: {
+                videos: Array(courseStructure.niveau2.videos.length).fill(false),
+                exercices: Array(courseStructure.niveau2.exercices.length).fill(false)
+              },
+              niveau3: {
+                videos: Array(courseStructure.niveau3.videos.length).fill(false),
+                exercices: Array(courseStructure.niveau3.exercices.length).fill(false)
+              },
+              eval1: false,
+              eval2: false
+            };
+            
+            // Si pas de données sauvegardées, retourner la structure par défaut
+            if (!saved) {
+              return defaultStructure;
             }
-            return progress[studentId];
+            
+            // Vérifier et réparer si nécessaire
+            try {
+              const repaired = JSON.parse(JSON.stringify(defaultStructure));
+              
+              // Copier les données existantes en vérifiant leur validité
+              ['niveau1', 'niveau2', 'niveau3'].forEach(niveau => {
+                if (saved[niveau] && saved[niveau].videos && saved[niveau].exercices) {
+                  repaired[niveau].videos = [...saved[niveau].videos];
+                  repaired[niveau].exercices = [...saved[niveau].exercices];
+                }
+              });
+              
+              if (typeof saved.eval1 === 'boolean') repaired.eval1 = saved.eval1;
+              if (typeof saved.eval2 === 'boolean') repaired.eval2 = saved.eval2;
+              
+              return repaired;
+            } catch (error) {
+              console.error("Erreur réparation données:", error);
+              return defaultStructure;
+            }
           };
 
           const toggleItem = (studentId, niveau, type, index) => {
