@@ -79,13 +79,13 @@
           console.log("📤 Envoi à Google Sheets:", data);
           
           try {
+            // Convertir en FormData pour compatibilité CORS
+            const formData = new FormData();
+            formData.append('data', JSON.stringify(data));
+            
             const response = await fetch(GOOGLE_SCRIPT_URL, {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-              redirect: 'follow'
+              body: formData
             });
             console.log("✅ Données envoyées avec succès");
           } catch (error) {
